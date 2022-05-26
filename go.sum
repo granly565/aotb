@@ -1,0 +1,8 @@
+github.com/gempir/go-twitch-irc/v3 v3.0.0 h1:e34R+9BdKy+qrO/wN+FCt+BUtyn38gCnJuKWscIKbl4=
+github.com/gempir/go-twitch-irc/v3 v3.0.0/go.mod h1:/W9KZIiyizVecp4PEb7kc4AlIyXKiCmvlXrzlpPUytU=
+github.com/icza/gox v0.0.0-20220321141217-e2d488ab2fbc h1:/vPVDa098f2SM/Ef3NtrWiyo4UBWL+QkD4hodlNpha8=
+github.com/icza/gox v0.0.0-20220321141217-e2d488ab2fbc/go.mod h1:VbcN86fRkkUMPX2ufM85Um8zFndLZswoIW1eYtpAcVk=
+github.com/joho/godotenv v1.4.0 h1:3l4+N6zfMWnkbPEXKng2o2/MR5mSwTrBih4ZEkkz1lg=
+github.com/joho/godotenv v1.4.0/go.mod h1:f4LDr5Voq0i2e/R5DDNOoa2zzDfwtkZa6DnEwAbqwq4=
+golang.org/x/exp v0.0.0-20220518171630-0b5c67f07fdf h1:oXVg4h2qJDd9htKxb5SCpFBHLipW6hXmL3qpUixS2jw=
+golang.org/x/exp v0.0.0-20220518171630-0b5c67f07fdf/go.mod h1:yh0Ynu2b5ZUe3MQfp2nM0ecK7wsgouWTDN0FNeJuIys=
