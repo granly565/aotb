@@ -1,4 +1,4 @@
-*Another One Twitch Bot*
+# Another One Twitch Bot
 
 Another One Twitch Bot (сокращённо AOTB) — это irc twitch бот, написанный для собственного пользования.
 
