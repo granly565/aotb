@@ -86,13 +86,15 @@ func (b *Bot) HandleCommand(message twitch.PrivateMessage) {
 		url := fmt.Sprintf("https://api.twitch.tv/helix/users/follows?from_id=%s&to_id=%s", message.User.ID, message.RoomID)
 		respBytes, err := getRequest(url)
 		if err != nil {
-			log.Fatal(err)
+			log.Printf("Failed send request in !followage command: %s", err)
+			return
 		}
 
 		var result UserFollows
 		err = json.Unmarshal(respBytes, &result)
 		if err != nil {
-			log.Fatal(err)
+			log.Printf("Failed parsing data to UserFollows struct in !followage command: %s", err)
+			return
 		}
 
 		if result.Total == 0 {
@@ -155,13 +157,20 @@ func (b *Bot) HandleCommand(message twitch.PrivateMessage) {
 		url := fmt.Sprintf("https://api.twitch.tv/helix/streams?user_login=%s", message.Channel)
 		respBytes, err := getRequest(url)
 		if err != nil {
-			log.Fatal(err)
+			log.Printf("Failed send request in !uptime command: %s", err)
+			return
 		}
 
 		var result UserStream
 		err = json.Unmarshal(respBytes, &result)
 		if err != nil {
-			log.Fatal(err)
+			log.Printf("Failed parsing data to UserStream struct in !uptime command: %s", err)
+			return
+		}
+
+		if len(result.Data) == 0 {
+			b.bot.Say(message.Channel, "Стрим сейчас оффлайн")
+			return
 		}
 
 		_, _, day, hour, minute, second := timex.Diff(result.Data[0].StartedAt, time.Now())
@@ -227,13 +236,19 @@ func (b *Bot) HandleCommand(message twitch.PrivateMessage) {
 		}
 		b.bot.Say(message.Channel, answerMessage)
 	case "info":
-		b.bot.Say(message.Channel, "Steam: ... Канал в Discord: ...")
+		b.bot.Say(message.Channel, "Steam: https://steamcommunity.com/id/granly565; Канал в Discord: https://discord.com/invite/NjDzNM3;")
+	case "archive":
+		b.bot.Say(message.Channel, "Архивы со стримами: YouTube https://www.youtube.com/channel/UCiHb-yU7r4u59YNvjANcasQ; Телеграм https://t.me/archive_granly565;")
 	case "меч":
 		username := message.User.DisplayName
 		if len(args) != 0 {
 			username = args[0]
 		}
-		b.bot.Say(message.Channel, fmt.Sprintf("Меч %s длиной аж в %d см!", username, RandFromRange(0, 30)))
+		if username == "fiberka" {
+			b.bot.Say(message.Channel, fmt.Sprintf("Меч %s длиной аж в %d см!", username, RandFromRange(-10, 0)))
+		} else {
+			b.bot.Say(message.Channel, fmt.Sprintf("Меч %s длиной аж в %d см!", username, RandFromRange(0, 30)))
+		}
 	case "обнимашки":
 		chatters := GetFilteredChatters(message)
 
@@ -248,12 +263,14 @@ func (b *Bot) HandleCommand(message twitch.PrivateMessage) {
 		if len(chatters) != 0 {
 			b.bot.Say(message.Channel, fmt.Sprintf("%s попадает снежком в %s", message.User.DisplayName, chatters[RandFromRange(0, len(chatters)-1)]))
 		} else {
-			b.bot.Say(message.Channel, "В некого бросать снежком, поэтому вы бросаете в себя :(")
+			b.bot.Say(message.Channel, "Нет никого, в кого бросить снежком, поэтому вы бросаете в себя :(")
 		}
 	case "games", "игры", "геймс", "игоры":
-		b.bot.Say(message.Channel, "Список запланированных игр: ...")
+		b.bot.Say(message.Channel, "Список запланированных игр: 1. В тылу врага 2 (Men of War); 2. Planescape: Torment")
 	case "music", "музыка", "vepsrf", "ьгышс":
-		b.bot.Say(message.Channel, "Заказ музыки: ...")
+		b.bot.Say(message.Channel, "Заказ музыки: https://streamdj.ru/c/Granly")
+		// case "auction", "аукцион":
+		// 	b.bot.Say(message.Channel, "Сейчас проводится аукцион+розыгрыш. В чём суть: вначале протекает стандартный аукцион, в котором побеждает лот с наибольшим кол-вом баллов; затем все остальные лоты участвуют в розыгрыше, в котором кол-во баллов влияет на шанс выигрыша, и побеждает рандомная игра. Так мы выбираем две игры для последующих прохождений. Уточняйте, если что-то не понятно.")
 	}
 
 }
