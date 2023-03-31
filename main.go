@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+	"path"
 	"sync"
 
 	"github.com/gempir/go-twitch-irc/v3"
@@ -12,7 +13,7 @@ import (
 )
 
 func main() {
-	if err := godotenv.Load(); err != nil {
+	if err := godotenv.Load(path.Join(os.Getenv("HOME"), "/aotb/.env")); err != nil {
 		log.Fatal("Error loading .env file")
 	}
 
@@ -22,6 +23,7 @@ func main() {
 		tauth.TwitchAuthentication(&wg)
 		wg.Wait()
 	} else {
+		tauth.RefreshTokens(os.Getenv("BOT_REFRESH_TOKEN"))
 		go tauth.StartTaskRefreshTokens(os.Getenv("BOT_REFRESH_TOKEN"))
 	}
 

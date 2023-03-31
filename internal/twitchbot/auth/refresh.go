@@ -13,8 +13,8 @@ import (
 
 func StartTaskRefreshTokens(refresh string) {
 	for {
-		go RefreshTokens(refresh)
 		<-time.After(2 * time.Hour)
+		go RefreshTokens(refresh)
 	}
 }
 
